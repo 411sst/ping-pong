@@ -1,5 +1,6 @@
 import pygame
 import random
+from .sounds import WALL_BOUNCE_SOUND, SCORE_SOUND
 
 class Ball:
     def __init__(self, x, y, width, height, screen_width, screen_height):
@@ -18,14 +19,13 @@ class Ball:
         self.x += self.velocity_x
         self.y += self.velocity_y
 
+        # Wall bounce sound
         if self.y <= 0 or self.y + self.height >= self.screen_height:
             self.velocity_y *= -1
-
-    def check_collision(self, player, ai):
-        if self.rect().colliderect(player.rect()) or self.rect().colliderect(ai.rect()):
-            self.velocity_x *= -1
+            WALL_BOUNCE_SOUND.play()
 
     def reset(self):
+        SCORE_SOUND.play()
         self.x = self.original_x
         self.y = self.original_y
         self.velocity_x *= -1
